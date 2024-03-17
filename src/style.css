@@ -40,7 +40,7 @@ body {
     border: 1px solid green;
 }
 
-.add-project, .add-task, .submit, .close {
+.add-project, .add-task, .submit, .close, .task-view-edit, .task-delete, .cancel {
     background-color: green;
     color: white;
     border: 1px solid white;
@@ -49,6 +49,18 @@ body {
     cursor: pointer;
     padding: 8px 12px;
     box-shadow: 5px 5px 2px 0px rgba(0,0,0,0.3);
+}
+
+.task-view-edit {
+    margin-left: 5px;
+    margin-right: 5px;
+    background-color: cornflowerblue;
+}
+
+.task-delete {
+    margin-left: 5px;
+    margin-right: 5px;
+    background-color: brown;
 }
 
 .close {
@@ -68,11 +80,13 @@ form {
 
 .title-tasks {
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
     align-items: baseline;
     background-color: greenyellow;
     border-radius: 12px;
     border: 1px solid green;
+    padding-left: 30px;
+    padding-right: 30px;
 }
 
 .projects {
@@ -101,8 +115,7 @@ form {
     gap: 20px;
 }
 
-.task-cards {    
-    
+.task-cards {        
     display: flex;
     flex-direction: column;
     gap: 10px;
@@ -114,9 +127,20 @@ form {
     border-radius: 12px;
     border: 1px solid green;
     display: grid;
-    grid-template-columns: 0.5fr 2fr 2fr 1fr 1fr;
+    grid-template-columns: 0.5fr 2fr 3fr 1fr 1fr;
+    align-items: baseline;
     gap: 5px;
     box-shadow: 5px 5px 2px 0px rgba(0,0,0,0.3);
+}
+
+.task-due-date {
+    justify-self: end;
+    margin-right: 30px;
+}
+
+.submit, .cancel {
+    margin-left: 10px;
+    margin-right: 10px;
 }
 
 dialog {
