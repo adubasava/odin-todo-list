@@ -1,0 +1,36 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do List</title>
+</head>
+<body>
+    <div class="header"></div>
+    <div class="sidebar"></div>
+    <div class="main-section">
+        <dialog>
+            <center><button autofocus class="close">X</button></center>
+            
+            <form action="#">
+                <br>
+                <label for="ttitle">Title:</label>
+                <input type="text" name="ttitle" id="ttitle"><br>
+                <label for="description">Description:</label>
+                <input type="text" name="description" id="description"><br>
+                <label for="dueDate">Due date:</label>
+                <input type="date" name="dueDate" id="dueDate"><br>
+                <label for="priority">Priority:</label>
+                <select name="priority" id="priority">
+                    <option value="high" selected>High</option>
+                    <option value="medium">Medium</option>
+                    <option value="low">Low</option>
+                  </select>
+                <br><br>                 
+                <center><button type="submit" class="submit">Add task</button></center>
+            </form>
+            
+        </dialog>          
+    </div>
+</body>
+</html>
