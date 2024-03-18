@@ -1,6 +1,6 @@
-﻿import { addButton, addDiv, addHeader, addImage, addSpan } from './pageload';
+﻿import { addButton, addDiv, addHeader, addImage, addSpan } from './createDOMelements';
 import { displayToDos, sortProjects } from './displayToDos';
-import { ToDo } from './todo';
+import { ToDo } from './todoClasses';
 import { projects } from './sidebar';
 
 const target = document.querySelector('.main-section');
@@ -14,14 +14,16 @@ function createMainContent() {
 
     addDiv('', 'task-cards', 'task-cards', target);  
     
-    const defaultTask = new ToDo({title: 'Get started here', description: 'Get started here', dueDate: '2024-03-24', priority: 'high', status: false, project: projects[0].title});
+    const defaultTask = new ToDo({title: 'High priority task', description: 'Get started here', dueDate: '2024-03-24', priority: 'high', status: false, project: projects[0].title});
     tasks.push(defaultTask);
 
-    const defaultTask2 = new ToDo({title: 'Get started here 2', description: 'Get started here 2', dueDate: '2024-03-24', priority: 'high', status: false, project: projects[1].title});
-    tasks.push(defaultTask2);    
+    const defaultTask2 = new ToDo({title: 'Medium priority task', description: 'Get started here 2', dueDate: '2024-03-24', priority: 'medium', status: false, project: projects[1].title});
+    tasks.push(defaultTask2);
+    
+    const defaultTask3 = new ToDo({title: 'Low priority task', description: 'Get started here 3', dueDate: '2024-03-24', priority: 'low', status: false, project: projects[1].title});
+    tasks.push(defaultTask3);   
 
     displayToDos();
-    //sortProjects(projects[1])
 }
 
 export { createMainContent, tasks }

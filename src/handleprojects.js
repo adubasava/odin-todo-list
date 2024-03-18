@@ -1,5 +1,5 @@
-﻿import { addButton, addDiv, addHeader, addImage, addSpan } from './pageload';
-import { ToDo, Project } from './todo';
+﻿import { addButton, addDiv, addHeader, addImage, addSpan } from './createDOMelements';
+import { ToDo, Project } from './todoClasses';
 import { displayToDos } from './displayToDos';
 import { tasks } from './currenttasks';
 import { projects, displayProjects } from './sidebar';

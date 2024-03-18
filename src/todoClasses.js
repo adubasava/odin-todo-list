@@ -7,10 +7,6 @@
         this.status = status;
         this.project = project;
     }    
-
-    toggleStatus() {
-        this.status = !this.status;
-    }
 }
 
 export class Project {

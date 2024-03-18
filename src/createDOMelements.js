@@ -42,8 +42,6 @@ function addButton(name, className, id, target) {
 function addCheckbox(id, target) {    
     const checkbox = document.createElement('input');
     checkbox.type = 'checkbox';
-    //checkbox.name = 'name';
-    //checkbox.value = 'value';
     checkbox.id = id;   
     target.appendChild(checkbox);
 }

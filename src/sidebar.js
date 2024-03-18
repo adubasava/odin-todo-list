@@ -1,16 +1,19 @@
-﻿import { addButton, addDiv, addHeader, addImage } from './pageload';
-import { ToDo, Project } from './todo';
-import { sortProjects } from './displayToDos';
+﻿import { addButton, addDiv, addHeader, addImage } from './createDOMelements';
+import { ToDo, Project } from './todoClasses';
+import { sortProjects, displayToDos, displayDoneTasks } from './displayToDos';
 import { removeProject, editProject } from './handleprojects';
 
 const target = document.querySelector('.sidebar');
 const projects = [];
 
-
 function createSidebar() {
     addDiv('', 'title', 'title', target);  
     addHeader('Your projects', 'h4', document.querySelector('.title'));
     addButton('Add project', 'add-project', 'add-project', document.querySelector('.title'));
+
+    addDiv('', 'sort', 'sort', target);
+    addButton(`Show all tasks`, 'sort-tasks', `all-tasks`, document.querySelector(`#sort`)); 
+    addButton(`Show done tasks`, 'sort-tasks', `done-tasks`, document.querySelector(`#sort`)); 
 
     addDiv('', 'projects', 'projects', target);  
 
@@ -20,6 +23,9 @@ function createSidebar() {
     projects.push(defaultProject2);
 
     displayProjects();
+
+    document.querySelector('#all-tasks').addEventListener('click', displayToDos);
+    document.querySelector('#done-tasks').addEventListener('click', displayDoneTasks);
 }
 
 function displayProjects() {

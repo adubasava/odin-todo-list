@@ -33,6 +33,7 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
+    gap: 10px;
     background-color: greenyellow;
     color: green;
     border-radius: 12px;
@@ -89,10 +90,14 @@ form {
     padding-right: 30px;
 }
 
-.projects {
+.projects, .sort {
     display: flex;
     flex-direction: column;
     gap: 10px;
+}
+
+.sort {
+    margin-bottom: 30px;
 }
 
 .project {
@@ -106,6 +111,17 @@ form {
     box-shadow: 5px 5px 2px 0px rgba(0,0,0,0.3);
     display: flex;
     justify-content: space-between;
+}
+
+.sort-tasks {
+    width: 220px;
+    font-size: 14px;
+    border-radius: 12px;
+    background-color: white;
+    border: 2px solid green;
+    cursor: pointer;
+    padding: 8px 10px;
+    box-shadow: 5px 5px 2px 0px rgba(0,0,0,0.3);
 }
 
 .project-edit {
@@ -143,16 +159,29 @@ form {
     gap: 10px;
 }
 
-.task {
-    padding: 20px;
-    background-color: rgb(115, 179, 18);
+.high, .medium, .low {
+    padding: 20px;    
     border-radius: 12px;
-    border: 1px solid green;
     display: grid;
     grid-template-columns: 0.5fr 2fr 3fr 1fr 1fr;
     align-items: baseline;
     gap: 5px;
     box-shadow: 5px 5px 2px 0px rgba(0,0,0,0.3);
+}
+
+.low {    
+    background-color: rgb(115, 179, 18);
+    border: 1px solid green;
+}
+
+.medium {    
+    background-color: rgba(255, 166, 0, 0.338);
+    border: 1px solid orange;
+}
+
+.high {    
+    background-color: rgba(255, 0, 0, 0.508);
+    border: 1px solid red;
 }
 
 .task-due-date {

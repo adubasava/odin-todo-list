@@ -1,4 +1,4 @@
-﻿import { addDiv, addHeader, addSpan } from './pageload';
+﻿import { addDiv, addHeader, addSpan } from './createDOMelements';
 
 const target = document.querySelector('.header');
 const user = 'Sherlock Holmes'
