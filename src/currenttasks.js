@@ -20,8 +20,8 @@ function createMainContent() {
     const defaultTask2 = new ToDo({title: 'Get started here 2', description: 'Get started here 2', dueDate: '2024-03-24', priority: 'high', status: false, project: projects[1].title});
     tasks.push(defaultTask2);    
 
-    //displayToDos();
-    sortProjects(projects[1])
+    displayToDos();
+    //sortProjects(projects[1])
 }
 
 export { createMainContent, tasks }

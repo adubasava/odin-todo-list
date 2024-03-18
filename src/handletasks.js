@@ -2,6 +2,7 @@
 import { ToDo } from './todo';
 import { displayToDos } from './displayToDos';
 import { tasks } from './currenttasks';
+import { projects } from './sidebar';
 
 function addTask() {
 
@@ -42,12 +43,25 @@ function addTask() {
         '</option>',
         '<option value="low">',
         'Low',
-        '</option></select><br><br>',
+        '</option></select><br>',
+        '<label for="tproject">',
+        'Project:',
+        '</label>',
+        '<select name="tproject" id="tproject">',
+        '<option disabled>',
+        'Choose a project',
+        '</option></select><br>',
+        '<br><br>',
         '<center><button type="submit" class="submit">',
         'Add task',
         '</button></center>',
         '</form>'
     ].join('');
+
+    const dropdown = document.getElementById('tproject');
+    for (let i = 0; i < projects.length; ++i) {        
+        dropdown[dropdown.length] = new Option(projects[i].title, projects[i].title);
+    }
 
     addEventListener('submit', (event) => {
         event.preventDefault();
@@ -58,6 +72,7 @@ function addTask() {
             dueDate: document.querySelector('#dueDate').value,  
             priority: document.querySelector('#priority').value, 
             status: false, 
+            project: document.querySelector('#tproject').value,
         });
 
         tasks.push(newTask);
@@ -111,7 +126,15 @@ function editTask(id) {
         '</option>',
         '<option value="low">',
         'Low',
-        '</option></select><br><br>',
+        '</option></select><br>',
+        '<label for="etproject">',
+        'Project:',
+        '</label>',
+        '<select name="etproject" id="etproject">',
+        '<option disabled>',
+        'Choose a project',
+        '</option></select><br>',
+        '<br><br>',
         '<center><button type="submit" class="submit" id=', id, '>',
         'Edit task',
         '</button>',
@@ -121,16 +144,26 @@ function editTask(id) {
         '</form>'
     ].join(''); 
 
+    const edropdown = document.getElementById('etproject');
+    for (let i = 0; i < projects.length; ++i) {        
+        edropdown[edropdown.length] = new Option(projects[i].title, projects[i].title);
+    }
+
     document.querySelector('#ettitle').value = tasks[id].title;
     document.querySelector('#edescription').value = tasks[id].description; 
     document.querySelector('#edueDate').value = tasks[id].dueDate;   
     document.querySelector('#epriority').value = tasks[id].priority; 
+    document.querySelector('#etproject').value = tasks[id].project;
 
     document.getElementById(id).addEventListener('click', () => {
         tasks[id].title = document.querySelector('#ettitle').value;
         tasks[id].description = document.querySelector('#edescription').value;
         tasks[id].dueDate = document.querySelector('#edueDate').value;
         tasks[id].priority = document.querySelector('#epriority').value;
+        tasks[id].project = document.querySelector('#etproject').value;
+        displayToDos();
+        dialEdit.close();
+        document.getElementById(`dial-${id}`).remove();
     });
 
     document.querySelector('.cancel').addEventListener('click', () => {
