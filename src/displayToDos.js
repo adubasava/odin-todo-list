@@ -40,6 +40,7 @@ function displayToDos() {
 function sortProjects(project) {
     const target = document.querySelector('.task-cards');
     target.textContent = "";
+    document.querySelector('.title-tasks h2').textContent = project.title;
 
     for (let i = 0, j = tasks.length; i < j; i++) {
 

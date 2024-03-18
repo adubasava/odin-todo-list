@@ -77,7 +77,15 @@ function editProject(id) {
     document.querySelector('#epttitle').value = projects[id].title;
 
     document.getElementById(id).addEventListener('click', () => {
-        projects[id].title = document.querySelector('#epttitle').value;
+
+        let newTitle = document.querySelector('#epttitle').value;
+        for (let i = 0, j = tasks.length; i < j; i++) {
+            if (tasks[i].project == projects[id].title) {
+                tasks[i].project = newTitle;
+            }
+        }
+        
+        projects[id].title = newTitle;
         displayProjects();
         dialEdit.close();
         document.getElementById(`dial-proj-${id}`).remove();

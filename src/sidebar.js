@@ -31,10 +31,11 @@ function displayProjects() {
         addDiv('', 'proj', `project-${i}`, target);
         const newTarget = document.querySelector(`#project-${i}`);
 
-        addButton(`${projects[i].title}`, 'project', `btn-project-title-${i}`, newTarget);        
-        addButton('', 'project-edit', `btn-project-${i}`, document.getElementById(`btn-project-title-${i}`));
+        addButton(`${projects[i].title}`, 'project', `btn-project-title-${i}`, newTarget);   
+        addDiv('', 'buttons', `div-${i}`, document.getElementById(`btn-project-title-${i}`));
+        addButton('', 'project-edit', `btn-project-${i}`, document.getElementById(`div-${i}`));
         addImage('../src/pencil.svg', 10, 'filter-white', document.getElementById(`btn-project-${i}`));
-        addButton(``, 'project-delete', `del-project-${i}`, document.getElementById(`btn-project-title-${i}`));        
+        addButton(``, 'project-delete', `del-project-${i}`, document.getElementById(`div-${i}`));        
         addImage('../src/delete.svg', 10, 'filter-white', document.getElementById(`del-project-${i}`));
 
         document.querySelector(`#project-${i}`).addEventListener('click', () => {
