@@ -22,10 +22,11 @@ function addHeader(content, level, target) {
     target.appendChild(newHeading);
 }
 
-function addImage(source, width, target) {
+function addImage(source, width, className, target) {
     const newImg = new Image();
     newImg.src = source;
     newImg.width = width;
+    newImg.classList.add(className);
     target.appendChild(newImg);
 }
 
@@ -38,12 +39,12 @@ function addButton(name, className, id, target) {
     target.appendChild(newButton);
 }
 
-function addCheckbox(target) {    
+function addCheckbox(id, target) {    
     const checkbox = document.createElement('input');
     checkbox.type = 'checkbox';
     //checkbox.name = 'name';
     //checkbox.value = 'value';
-    //checkbox.id = id;   
+    checkbox.id = id;   
     target.appendChild(checkbox);
 }
 

@@ -1,6 +1,7 @@
-﻿import { addButton, addDiv, addHeader } from './pageload';
+﻿import { addButton, addDiv, addHeader, addImage } from './pageload';
 import { ToDo, Project } from './todo';
 import { sortProjects } from './displayToDos';
+import { removeProject, editProject } from './handleprojects';
 
 const target = document.querySelector('.sidebar');
 const projects = [];
@@ -13,35 +14,41 @@ function createSidebar() {
 
     addDiv('', 'projects', 'projects', target);  
 
-    displayProjects();
-}
-
-function displayProjects() {
     const defaultProject = new Project('Default project');
     projects.push(defaultProject);
     const defaultProject2 = new Project('Default project 2');
     projects.push(defaultProject2);
 
+    displayProjects();
+}
+
+function displayProjects() {
     const target = document.querySelector('.projects');
-    //target.textContent = "";
+    target.textContent = "";
 
     for (let i = 0, j = projects.length; i < j; i++) {
 
         addDiv('', 'proj', `project-${i}`, target);
         const newTarget = document.querySelector(`#project-${i}`);
 
-        addButton(`${projects[i].title}`, 'project', `btn-project-title-${i}`, newTarget);
-        addButton('Edit', 'project-edit', `btn-project-${i}`, document.getElementById(`btn-project-title-${i}`));
-        addButton(`Delete`, 'project-delete', `del-project-${i}`, document.getElementById(`btn-project-title-${i}`));
+        addButton(`${projects[i].title}`, 'project', `btn-project-title-${i}`, newTarget);        
+        addButton('', 'project-edit', `btn-project-${i}`, document.getElementById(`btn-project-title-${i}`));
+        addImage('../src/pencil.svg', 10, 'filter-white', document.getElementById(`btn-project-${i}`));
+        addButton(``, 'project-delete', `del-project-${i}`, document.getElementById(`btn-project-title-${i}`));        
+        addImage('../src/delete.svg', 10, 'filter-white', document.getElementById(`del-project-${i}`));
 
         document.querySelector(`#project-${i}`).addEventListener('click', () => {
             sortProjects(projects[i]);
         });
 
-        //document.querySelector(`#btn-task-${i}`).addEventListener('click', () => editTask(i));
-        //document.querySelector(`#del-task-${i}`).addEventListener('click', () => removeTask(`task-${i}`));    
-    }
+        document.getElementById(`btn-project-${i}`).addEventListener('click', () => {
+            editProject(i); 
+        });    
 
+        document.getElementById(`del-project-${i}`).addEventListener('click', () => {
+            removeProject(`project-${i}`); 
+        });  
+    }
 }
 
-export { createSidebar, projects }
+export { createSidebar, projects, displayProjects }
