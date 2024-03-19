@@ -28,6 +28,13 @@ function displayTask(id) {
     document.querySelector(`#del-task-${id}`).addEventListener('click', () => removeTask(`task-${id}`)); 
 
     const checkbox = document.getElementById(`check-${id}`);
+
+    if (allTasks[id].status == true) {
+        checkbox.checked = true; 
+        document.getElementById(`task-${id}`).style.textDecoration = 'line-through';
+        document.getElementById(`task-${id}`).style.backgroundColor = 'gray'; 
+    } 
+
     checkbox.addEventListener('change', () => {
         handleCheckbox(id);
     });  
@@ -39,10 +46,12 @@ function handleCheckbox(id) {
         document.getElementById(`task-${id}`).style.textDecoration = 'line-through';
         document.getElementById(`task-${id}`).style.backgroundColor = 'gray';
         allTasks[id].status = true;
+        localStorage.setItem(`task-${id}`, JSON.stringify(allTasks[id]));  
     } else {
         document.getElementById(`task-${id}`).style.textDecoration = 'none';
         document.getElementById(`task-${id}`).style.backgroundColor = 'rgb(115, 179, 18)';
         allTasks[id].status = false;
+        localStorage.setItem(`task-${id}`, JSON.stringify(allTasks[id]));  
     }
 }
 
@@ -52,7 +61,9 @@ function displayTasks() {
     document.querySelector('.title-tasks h2').textContent = 'All projects';
 
     for (let i = 0, j = allTasks.length; i < j; i++) {
-        displayTask(i);       
+        if (allTasks[i].status == false) {
+            displayTask(i);  
+        }             
     }
 }
 
@@ -63,7 +74,7 @@ function sortByProject(projecttitle) {
 
     for (let i = 0, j = allTasks.length; i < j; i++) {
 
-        if (allTasks[i].project == projecttitle) {
+        if (allTasks[i].project == projecttitle && allTasks[i].status == false) {
             displayTask(i);
         }           
     }

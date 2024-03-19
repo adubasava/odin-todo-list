@@ -1,5 +1,5 @@
 ﻿import { ToDo } from './todoClasses';
-import { sortByProject } from './displaytasks';
+import { displayTasks, sortByProject } from './displaytasks';
 import { allTasks, allProjects, saveTaskToLocalStorage, retreiveFromLocalStorage } from './managelocalstorage';
 
 function addTask() {
@@ -61,8 +61,6 @@ function addTask() {
         dropdown[dropdown.length] = new Option(allProjects[i].title, allProjects[i].title);
     }
 
-    //document.body.append(form);
-
     addEventListener('submit', (event) => {
         event.preventDefault();
     
@@ -77,7 +75,13 @@ function addTask() {
 
         saveTaskToLocalStorage(newTask);
         retreiveFromLocalStorage();
-        sortByProject(document.querySelector('.title-tasks h2').textContent);
+
+        if (document.querySelector('.title-tasks h2').textContent == 'All projects') {
+            displayTasks();
+        } else {
+            sortByProject(document.querySelector('.title-tasks h2').textContent);
+        }
+        
         dialog.close();
         document.getElementById(`dialogadd`).remove();
     });
@@ -146,8 +150,7 @@ function editTask(id) {
     const dropdown = document.getElementById('etproject');
     for (let i = 0; i < allProjects.length; ++i) {        
         dropdown[dropdown.length] = new Option(allProjects[i].title, allProjects[i].title);
-    }
-    //document.body.append(form);
+    }   
 
     document.querySelector('#ettitle').value = allTasks[id].title;
     document.querySelector('#edescription').value = allTasks[id].description; 

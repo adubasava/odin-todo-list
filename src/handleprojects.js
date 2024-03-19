@@ -40,7 +40,6 @@ function addProject() {
         dialog.close();
         document.getElementById(`dialogaddproj`).remove();
     });
-    //document.body.append(form);
 }
 
 function removeProject(id) {
@@ -68,7 +67,7 @@ function editProject(id) {
         '</button></center>',
         '</form>'
     ].join(''); 
-    //document.body.append(form);
+    
     let oldTitle = JSON.parse(localStorage.getItem([`project-${id}`])).title;
     document.querySelector('#epttitle').value = oldTitle;
 

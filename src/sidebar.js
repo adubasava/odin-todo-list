@@ -13,7 +13,7 @@ function createSidebar() {
     addButton('Add project', 'add-project', 'add-project', document.querySelector('.title'));
 
     addDiv('', 'sort', 'sort', target);
-    addButton(`Show all tasks`, 'sort-tasks', `all-tasks`, document.querySelector(`#sort`)); 
+    addButton(`Show all current tasks`, 'sort-tasks', `all-tasks`, document.querySelector(`#sort`)); 
     addButton(`Show done tasks`, 'sort-tasks', `done-tasks`, document.querySelector(`#sort`)); 
 
     addDiv('', 'projects', 'projects', target);      
