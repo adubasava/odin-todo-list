@@ -1,8 +1,6 @@
-﻿import { addButton, addDiv, addHeader, addImage, addSpan } from './createDOMelements';
-import { ToDo, Project } from './todoClasses';
-import { displayToDos } from './displayToDos';
-import { tasks } from './currenttasks';
-import { projects, displayProjects } from './sidebar';
+﻿import { Project } from './todoClasses';
+import { displayProjects } from './sidebar';
+import { saveProjectToLocalStorage, allTasks } from './managelocalstorage';
 
 function addProject() {
 
@@ -27,13 +25,12 @@ function addProject() {
         'Add project',
         '</button></center>',
         '</form>'
-    ].join('');
+    ].join('');    
 
     addEventListener('submit', (event) => {
-        event.preventDefault();
-    
+        event.preventDefault();    
         const newProject = new Project(document.querySelector('#ptitle').value);
-        projects.push(newProject);
+        saveProjectToLocalStorage(newProject);
         displayProjects();
         dialog.close();
         document.getElementById(`dialogaddproj`).remove();
@@ -43,14 +40,12 @@ function addProject() {
         dialog.close();
         document.getElementById(`dialogaddproj`).remove();
     });
+    //document.body.append(form);
 }
 
 function removeProject(id) {
-    // if to remove from DOM
     document.getElementById(id).remove();
-    
-    // if to remove from array:
-    //projects.splice(id, 1);    
+    localStorage.removeItem(id);
 }
 
 function editProject(id) {
@@ -73,25 +68,29 @@ function editProject(id) {
         '</button></center>',
         '</form>'
     ].join(''); 
-
-    document.querySelector('#epttitle').value = projects[id].title;
+    //document.body.append(form);
+    let oldTitle = JSON.parse(localStorage.getItem([`project-${id}`])).title;
+    document.querySelector('#epttitle').value = oldTitle;
 
     document.getElementById(id).addEventListener('click', () => {
 
-        let newTitle = document.querySelector('#epttitle').value;
-        for (let i = 0, j = tasks.length; i < j; i++) {
-            if (tasks[i].project == projects[id].title) {
-                tasks[i].project = newTitle;
+        let newTitle = document.querySelector('#epttitle').value;        
+
+        for (let i = 0, j = allTasks.length; i < j; i++) {
+            if (allTasks[i].project == oldTitle) {
+                allTasks[i].project = newTitle;
+                localStorage.setItem(`task-${i}`, JSON.stringify(allTasks[i]));
             }
-        }
+        }        
         
-        projects[id].title = newTitle;
+        localStorage.setItem(`project-${id}`, `{"title":"${newTitle}"}`);
         displayProjects();
         dialEdit.close();
         document.getElementById(`dial-proj-${id}`).remove();
     });
 
-    document.querySelector('.cancel').addEventListener('click', () => {
+    document.querySelector('.cancel').addEventListener('click', (event) => {
+        event.preventDefault;
         dialEdit.close();
         document.getElementById(`dial-proj-${id}`).remove();
     });

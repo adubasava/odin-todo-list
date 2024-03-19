@@ -1,16 +1,14 @@
-﻿import { ToDo } from './todoClasses';
-import { addButton, addCheckbox, addDiv, addHeader, addImage, addSpan } from './createDOMelements';
-import { tasks } from './currenttasks';
+﻿import { addButton, addCheckbox, addDiv, addSpan } from './createDOM';
 import { removeTask, editTask } from './handletasks';
-import { projects } from './sidebar';
+import { allTasks } from './managelocalstorage';
 
-function displayToDo(id) {
+function displayTask(id) {
     const target = document.querySelector('.task-cards');
 
     let colorClass;
-    if (tasks[id].priority == 'low') {
+    if (allTasks[id].priority == 'low') {
         colorClass = 'low';
-    } else if (tasks[id].priority == 'medium') {
+    } else if (allTasks[id].priority == 'medium') {
         colorClass = 'medium';
     } else {
         colorClass = 'high';
@@ -19,10 +17,12 @@ function displayToDo(id) {
     addDiv(``, `${colorClass}`, `task-${id}`, target);
     const newTarget = document.querySelector(`#task-${id}`);
     addCheckbox(`check-${id}`, newTarget);
-    addSpan(`${tasks[id].title}`, 'task-title', newTarget);
-    addSpan(`${tasks[id].dueDate}`, 'task-due-date', newTarget);
-    addButton(`View / edit`, 'task-view-edit', `btn-task-${id}`, newTarget);
-    addButton(`Delete`, 'task-delete', `del-task-${id}`, newTarget);
+    addSpan(`${allTasks[id].title}`, 'task-title', newTarget);
+    addSpan(`${allTasks[id].dueDate}`, 'task-due-date', newTarget);
+
+    addDiv(``, `btns`, `div-t-${id}`, newTarget);   
+    addButton(`View / edit`, 'task-view-edit', `btn-task-${id}`, document.getElementById(`div-t-${id}`));
+    addButton(`Delete`, 'task-delete', `del-task-${id}`, document.getElementById(`div-t-${id}`));
 
     document.querySelector(`#btn-task-${id}`).addEventListener('click', () => editTask(id));
     document.querySelector(`#del-task-${id}`).addEventListener('click', () => removeTask(`task-${id}`)); 
@@ -38,33 +38,33 @@ function handleCheckbox(id) {
     if (checkbox.checked) {
         document.getElementById(`task-${id}`).style.textDecoration = 'line-through';
         document.getElementById(`task-${id}`).style.backgroundColor = 'gray';
-        tasks[id].status = true;
+        allTasks[id].status = true;
     } else {
         document.getElementById(`task-${id}`).style.textDecoration = 'none';
         document.getElementById(`task-${id}`).style.backgroundColor = 'rgb(115, 179, 18)';
-        tasks[id].status = false;
+        allTasks[id].status = false;
     }
 }
 
-function displayToDos() {
+function displayTasks() {
     const target = document.querySelector('.task-cards');
     target.textContent = "";
     document.querySelector('.title-tasks h2').textContent = 'All projects';
 
-    for (let i = 0, j = tasks.length; i < j; i++) {
-        displayToDo(i);       
+    for (let i = 0, j = allTasks.length; i < j; i++) {
+        displayTask(i);       
     }
 }
 
-function sortProjects(project) {
+function sortByProject(projecttitle) {
     const target = document.querySelector('.task-cards');
     target.textContent = "";
-    document.querySelector('.title-tasks h2').textContent = project.title;
+    document.querySelector('.title-tasks h2').textContent = projecttitle;
 
-    for (let i = 0, j = tasks.length; i < j; i++) {
+    for (let i = 0, j = allTasks.length; i < j; i++) {
 
-        if (tasks[i].project == project.title) {
-            displayToDo(i);
+        if (allTasks[i].project == projecttitle) {
+            displayTask(i);
         }           
     }
 }
@@ -74,10 +74,10 @@ function displayDoneTasks() {
     target.textContent = "";
     document.querySelector('.title-tasks h2').textContent = 'Done tasks';
 
-    for (let i = 0, j = tasks.length; i < j; i++) {
+    for (let i = 0, j = allTasks.length; i < j; i++) {
 
-        if (tasks[i].status == true) {
-            displayToDo(i);
+        if (allTasks[i].status == true) {
+            displayTask(i);
 
             const checkbox = document.getElementById(`check-${i}`);
             checkbox.checked = true;
@@ -87,7 +87,7 @@ function displayDoneTasks() {
             checkbox.addEventListener('change', () => {
                 handleCheckbox(i);
 
-                if (tasks[i].status == false) {
+                if (allTasks[i].status == false) {
                     displayDoneTasks();
                 }
             });
@@ -95,4 +95,4 @@ function displayDoneTasks() {
     }
 }
 
-export { displayToDos, sortProjects, displayDoneTasks }
+export { displayTasks, sortByProject, displayDoneTasks }

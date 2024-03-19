@@ -1,10 +1,11 @@
-﻿import { addButton, addDiv, addHeader, addImage } from './createDOMelements';
-import { ToDo, Project } from './todoClasses';
-import { sortProjects, displayToDos, displayDoneTasks } from './displayToDos';
+﻿import { addButton, addDiv, addHeader, addImage } from './createDOM';
+import { sortByProject, displayTasks, displayDoneTasks } from './displaytasks';
 import { removeProject, editProject } from './handleprojects';
+import editLogo from './pencil.svg';
+import deleteLogo from './delete.svg';
+import { retreiveFromLocalStorage, allProjects, saveDefault } from './managelocalstorage';
 
 const target = document.querySelector('.sidebar');
-const projects = [];
 
 function createSidebar() {
     addDiv('', 'title', 'title', target);  
@@ -15,47 +16,56 @@ function createSidebar() {
     addButton(`Show all tasks`, 'sort-tasks', `all-tasks`, document.querySelector(`#sort`)); 
     addButton(`Show done tasks`, 'sort-tasks', `done-tasks`, document.querySelector(`#sort`)); 
 
-    addDiv('', 'projects', 'projects', target);  
-
-    const defaultProject = new Project('Default project');
-    projects.push(defaultProject);
-    const defaultProject2 = new Project('Default project 2');
-    projects.push(defaultProject2);
+    addDiv('', 'projects', 'projects', target);      
 
     displayProjects();
 
-    document.querySelector('#all-tasks').addEventListener('click', displayToDos);
+    document.querySelector('#all-tasks').addEventListener('click', displayTasks);
     document.querySelector('#done-tasks').addEventListener('click', displayDoneTasks);
 }
 
 function displayProjects() {
+
+    if (localStorage.length > 0) {
+        retreiveFromLocalStorage();
+        displayProjectsFromArray(allProjects);        
+    } else {
+        saveDefault();   
+        displayProjects();   
+    }  
+}
+
+function displayProjectsFromArray(array) {
+
     const target = document.querySelector('.projects');
     target.textContent = "";
 
-    for (let i = 0, j = projects.length; i < j; i++) {
+    for (let i = 0, j = array.length; i < j; i++) {
 
         addDiv('', 'proj', `project-${i}`, target);
         const newTarget = document.querySelector(`#project-${i}`);
 
-        addButton(`${projects[i].title}`, 'project', `btn-project-title-${i}`, newTarget);   
+        addButton(`${array[i].title}`, 'project', `btn-project-title-${i}`, newTarget);   
         addDiv('', 'buttons', `div-${i}`, document.getElementById(`btn-project-title-${i}`));
         addButton('', 'project-edit', `btn-project-${i}`, document.getElementById(`div-${i}`));
-        addImage('../src/pencil.svg', 10, 'filter-white', document.getElementById(`btn-project-${i}`));
+        addImage(editLogo, 10, 'filter-white', document.getElementById(`btn-project-${i}`));
         addButton(``, 'project-delete', `del-project-${i}`, document.getElementById(`div-${i}`));        
-        addImage('../src/delete.svg', 10, 'filter-white', document.getElementById(`del-project-${i}`));
+        addImage(deleteLogo, 10, 'filter-white', document.getElementById(`del-project-${i}`));
 
         document.querySelector(`#project-${i}`).addEventListener('click', () => {
-            sortProjects(projects[i]);
+            sortByProject(array[i].title);
         });
 
-        document.getElementById(`btn-project-${i}`).addEventListener('click', () => {
+        document.getElementById(`btn-project-${i}`).addEventListener('click', (event) => {
+            event.stopPropagation();
             editProject(i); 
         });    
 
-        document.getElementById(`del-project-${i}`).addEventListener('click', () => {
-            removeProject(`project-${i}`); 
+        document.getElementById(`del-project-${i}`).addEventListener('click', (event) => {
+            event.stopPropagation();
+            removeProject(`project-${i}`);           
         });  
     }
 }
 
-export { createSidebar, projects, displayProjects }
+export { createSidebar, displayProjects }

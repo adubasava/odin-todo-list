@@ -1,8 +1,6 @@
-﻿import { addButton, addDiv, addHeader, addImage, addSpan } from './createDOMelements';
-import { ToDo } from './todoClasses';
-import { displayToDos } from './displayToDos';
-import { tasks } from './currenttasks';
-import { projects } from './sidebar';
+﻿import { ToDo } from './todoClasses';
+import { sortByProject } from './displaytasks';
+import { allTasks, allProjects, saveTaskToLocalStorage, retreiveFromLocalStorage } from './managelocalstorage';
 
 function addTask() {
 
@@ -56,12 +54,14 @@ function addTask() {
         'Add task',
         '</button></center>',
         '</form>'
-    ].join('');
+    ].join('');    
 
     const dropdown = document.getElementById('tproject');
-    for (let i = 0; i < projects.length; ++i) {        
-        dropdown[dropdown.length] = new Option(projects[i].title, projects[i].title);
+    for (let i = 0; i < allProjects.length; ++i) {        
+        dropdown[dropdown.length] = new Option(allProjects[i].title, allProjects[i].title);
     }
+
+    //document.body.append(form);
 
     addEventListener('submit', (event) => {
         event.preventDefault();
@@ -75,8 +75,9 @@ function addTask() {
             project: document.querySelector('#tproject').value,
         });
 
-        tasks.push(newTask);
-        displayToDos();
+        saveTaskToLocalStorage(newTask);
+        retreiveFromLocalStorage();
+        sortByProject(document.querySelector('.title-tasks h2').textContent);
         dialog.close();
         document.getElementById(`dialogadd`).remove();
     });
@@ -88,11 +89,8 @@ function addTask() {
 }
 
 function removeTask(id) {
-    // if to remove from DOM
     document.getElementById(id).remove();
-    
-    // if to remove from array:
-    //tasks.splice(id, 1);    
+    localStorage.removeItem(id);
 }
 
 function editTask(id) {
@@ -143,25 +141,29 @@ function editTask(id) {
         '</button></center>',
         '</form>'
     ].join(''); 
-
-    const edropdown = document.getElementById('etproject');
-    for (let i = 0; i < projects.length; ++i) {        
-        edropdown[edropdown.length] = new Option(projects[i].title, projects[i].title);
+    
+    retreiveFromLocalStorage();
+    const dropdown = document.getElementById('etproject');
+    for (let i = 0; i < allProjects.length; ++i) {        
+        dropdown[dropdown.length] = new Option(allProjects[i].title, allProjects[i].title);
     }
+    //document.body.append(form);
 
-    document.querySelector('#ettitle').value = tasks[id].title;
-    document.querySelector('#edescription').value = tasks[id].description; 
-    document.querySelector('#edueDate').value = tasks[id].dueDate;   
-    document.querySelector('#epriority').value = tasks[id].priority; 
-    document.querySelector('#etproject').value = tasks[id].project;
+    document.querySelector('#ettitle').value = allTasks[id].title;
+    document.querySelector('#edescription').value = allTasks[id].description; 
+    document.querySelector('#edueDate').value = allTasks[id].dueDate;   
+    document.querySelector('#epriority').value = allTasks[id].priority; 
+    document.querySelector('#etproject').value = allTasks[id].project;
 
     document.getElementById(id).addEventListener('click', () => {
-        tasks[id].title = document.querySelector('#ettitle').value;
-        tasks[id].description = document.querySelector('#edescription').value;
-        tasks[id].dueDate = document.querySelector('#edueDate').value;
-        tasks[id].priority = document.querySelector('#epriority').value;
-        tasks[id].project = document.querySelector('#etproject').value;
-        displayToDos();
+        allTasks[id].title = document.querySelector('#ettitle').value;
+        allTasks[id].description = document.querySelector('#edescription').value;
+        allTasks[id].dueDate = document.querySelector('#edueDate').value;
+        allTasks[id].priority = document.querySelector('#epriority').value;
+        allTasks[id].project = document.querySelector('#etproject').value;
+
+        localStorage.setItem(`task-${id}`, JSON.stringify(allTasks[id]));        
+        sortByProject(allTasks[id].project);
         dialEdit.close();
         document.getElementById(`dial-${id}`).remove();
     });
